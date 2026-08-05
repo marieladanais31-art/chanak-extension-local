@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chanak Extensión Local — Cuaderno interactivo</title>
+<meta name="description" content="Cuaderno interactivo de Extensión Local (Lengua, Historia y Geografía) alineado con LOMLOE, por grado, de Chanak International Academy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#12284b;--navy-2:#1c3a63;--green:#2f7d4f;--green-soft:#e7f2ea;--gold:#b98a2e;--gold-soft:#f6edd8;--paper:#fbfaf7;--ink:#1b2330;--muted:#5d6675;--line:#e4e2db;--card:#fff;--shadow:0 1px 2px rgba(18,40,75,.04),0 8px 24px rgba(18,40,75,.06);--radius:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+header.top{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top-inner{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.crest{width:38px;height:38px;border-radius:9px;background:var(--navy);color:#fff;display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:700;flex-shrink:0}
+.brand h1{font-size:16px;color:var(--navy)}
+.brand p{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.badges{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{font-size:11px;font-weight:600;padding:5px 10px;border-radius:20px;white-space:nowrap}
+.badge.gold{background:var(--gold-soft);color:var(--gold);border:1px solid #e8d5a3}
+.coins{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--navy);background:#fff;border:1px solid var(--line);padding:5px 12px;border-radius:20px}
+.coins b{color:var(--gold)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.view{display:none;padding:32px 0 80px}
+.view.active{display:block;animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero{text-align:center;padding:48px 0 12px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.hero h2{font-size:clamp(30px,5.5vw,50px);color:var(--navy);margin-bottom:16px}
+.hero .lead{max-width:640px;margin:0 auto;color:var(--muted);font-size:17px}
+.search-bar{max-width:560px;margin:26px auto 0;position:relative}
+.search-bar input{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:14px 18px;font-family:inherit;font-size:15px;background:#fff}
+.search-bar input:focus{outline:none;border-color:var(--green)}
+.stage-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px}
+.stage-tag.primaria{background:var(--green-soft);color:var(--green)}
+.stage-tag.eso{background:#eef4fb;color:#2f6ba5}
+.stage-tag.bachillerato{background:#ece5f5;color:#6b4fa0}
+.section-label{display:flex;align-items:center;gap:14px;margin:44px 0 20px}
+.section-label h3{font-size:20px;color:var(--navy);white-space:nowrap}
+.section-label::after{content:"";height:1px;background:var(--line);flex:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;cursor:pointer;transition:.18s;position:relative}
+.gcard:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:#c9d3e0}
+.gcard .age{position:absolute;top:18px;right:18px;font-size:11px;color:var(--muted);font-weight:600}
+.gcard h4{font-size:19px;color:var(--navy);margin:6px 0 6px}
+.gcard p{font-size:13px;color:var(--muted)}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;cursor:pointer;padding:8px 0;margin-bottom:8px}
+.back:hover{color:var(--navy)}
+.page-head{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px}
+.page-head .eyebrow{margin-bottom:8px}
+.page-head h2{font-size:clamp(26px,4vw,38px);color:var(--navy)}
+.page-head p{color:var(--muted);margin-top:10px;max-width:680px}
+.subjects-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.subj{font-size:12px;font-weight:600;color:var(--navy-2);background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 12px}
+.quarter-block{margin-bottom:36px}
+.quarter-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+.quarter-head .qid{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--gold);font-weight:600}
+.quarter-head h4{font-size:18px;color:var(--navy)}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;cursor:pointer;transition:.18s;position:relative}
+.mcard:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.mcard .mo{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--gold);font-weight:600;text-transform:uppercase}
+.mcard .area-tag{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--green);background:var(--green-soft);border-radius:12px;padding:3px 8px;margin-left:8px}
+.mcard h4{font-size:16px;color:var(--navy);margin:8px 0}
+.mcard .foot{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11px;font-weight:600}
+.chip{padding:3px 9px;border-radius:20px}
+.chip.done{background:var(--navy);color:#fff}
+.mcard .status{margin-left:auto;color:var(--muted);font-weight:500}
+.lesson{max-width:760px;margin:0 auto}
+.lhead{background:var(--navy);color:#eaf0f8;border-radius:var(--radius);padding:26px;margin-bottom:24px}
+.lhead .lo-mo{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9db3d4}
+.lhead h2{color:#fff;font-size:26px;margin:8px 0 10px}
+.lverse{font-family:'Fraunces',serif;font-style:italic;font-size:17px;line-height:1.5;margin-top:8px}
+.lverse span{display:block;font-style:normal;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-top:6px;font-family:'Inter',sans-serif}
+.lsec{margin-bottom:28px}
+.lsec h3{font-size:19px;color:var(--navy);margin-bottom:12px}
+.lsub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bullets{list-style:none}
+.bullets li{position:relative;padding-left:22px;margin-bottom:8px;font-size:15px}
+.bullets li::before{content:"•";position:absolute;left:4px;color:var(--green);font-weight:700}
+.sessions{display:grid;gap:10px}
+.session{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;gap:12px}
+.session b{color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:13px;flex-shrink:0}
+.taskbox{background:var(--gold-soft);border:1px solid #e8d5a3;border-radius:var(--radius);padding:22px;margin-top:8px}
+.tb-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.tb-badge{font-size:22px}
+.tb-head h3{color:var(--navy);font-size:19px}
+.tb-head p{color:#7a5a1e;font-size:13px;margin-top:2px}
+.tb-block{margin-bottom:16px}
+.tb-block h4{font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--navy);margin-bottom:8px}
+.tb-produce{background:#fff;border-radius:10px;padding:14px;font-size:15px;color:var(--ink)}
+.tb-rubric{display:grid;gap:10px}
+.tb-r{background:#fff;border-radius:10px;padding:12px 14px}
+.tb-r-top{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.tb-r-bar{height:5px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:8px}
+.tb-r-bar i{display:block;height:100%;background:var(--green)}
+.tb-r p{font-size:13px;color:var(--muted)}
+.codes-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.code-pill{font-size:11px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:20px;padding:4px 10px;color:var(--navy-2)}
+.code-pill b{color:var(--gold)}
+.btn{font-family:inherit;font-size:15px;font-weight:600;border-radius:12px;padding:12px 24px;cursor:pointer;border:none;transition:.15s}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.primary:hover{background:var(--navy-2)}
+.btn.ghost{background:none;color:var(--muted);border:1.5px solid var(--line)}
+.btn.ghost:hover{color:var(--navy);border-color:var(--navy)}
+.btn.full{width:100%}
+.s-empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.s-empty span{font-size:36px;display:block;margin-bottom:10px}
+.tip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.tip-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+.tip-card h5{font-size:14px;color:var(--navy);margin-bottom:6px}
+.tip-card p{font-size:13px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px 0;text-align:center;font-size:12px;color:var(--muted)}
+footer b{color:var(--navy)}
+@media(max-width:600px){.top-inner{flex-wrap:wrap}.badges{width:100%;margin-left:0}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-inner">
+    <div class="crest">C</div>
+    <div class="brand">
+      <h1>Chanak International Academy</h1>
+      <p>Extensión Local · LOMLOE</p>
+    </div>
+    <div class="badges">
+      <span class="badge gold">MSA Candidacy</span>
+      <span class="coins">🪙 <b id="coinCount">0</b> ChanakCoins</span>
+    </div>
+  </div>
+</header>
+
+<!-- HOME -->
+<div class="view" id="view-home">
+  <div class="wrap">
+    <div class="hero">
+      <div class="eyebrow">Lengua · Historia · Geografía · Cultura · Fe</div>
+      <h2>Cuaderno interactivo de Extensión Local</h2>
+      <p class="lead">El 20% local del modelo 60/20/20: lengua castellana, historia de España, geografía y cultura, con LOMLOE como referencia y conexión bíblica en cada mes. Elige el grado del estudiante para ver el mapa completo del curso.</p>
+      <div class="search-bar"><input id="search-input" type="text" placeholder="Buscar un tema, un mes o un grado…" oninput="runSearch()"></div>
+    </div>
+    <div id="search-results-home"></div>
+    <div id="grade-sections"></div>
+
+    <div class="section-label"><h3>Cómo aprovechar cada sesión</h3></div>
+    <div class="tip-grid">
+      <div class="tip-card"><h5>🎥 Video de presentación</h5><p>Graba de 2 a 5 minutos. Presenta el tema, muestra el proceso, enseña la evidencia y cierra con una frase sobre lo que aprendiste y cómo lo aplicarás.</p></div>
+      <div class="tip-card"><h5>🎤 Hablar en público</h5><p>Prepara tres ideas, mira a la cámara o al público, habla despacio, evita leer todo el texto y practica una vez de pie antes de grabar o exponer.</p></div>
+      <div class="tip-card"><h5>✂️ Trabajos manuales con excelencia</h5><p>Planifica materiales, cuida limpieza y proporción, etiqueta partes importantes, toma fotos del proceso y revisa los detalles antes de entregar.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- GRADE -->
+<div class="view" id="view-grade">
+  <div class="wrap">
+    <button class="back" onclick="showView('home')">← Volver al inicio</button>
+    <div class="page-head">
+      <div class="eyebrow" id="gr-eyebrow"></div>
+      <h2 id="gr-title"></h2>
+      <p id="gr-desc"></p>
+      <div class="subjects-row" id="gr-subjects"></div>
+    </div>
+    <div id="gr-quarters"></div>
+  </div>
+</div>
+
+<!-- LESSON (mes) -->
+<div class="view" id="view-lesson">
+  <div class="wrap">
+    <button class="back" id="ls-back">← Volver al grado</button>
+    <div class="lesson" id="lesson-body"></div>
+  </div>
+</div>
+
+<footer>
+  <b>Chanak International Academy</b> · FLDOE #134620 · MSA Candidacy · Extensión Local (LOMLOE)<br>
+  El portal orienta · el SIS registra la información oficial
+</footer>
+
+<script src="data-curriculum.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
