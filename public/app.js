@@ -242,7 +242,8 @@ function renderStep(s,i,total){
   else if(s.type==='theory') inner=`<p>${s.body}</p>${s.diagram?`<div class="diagram">${s.diagram}</div>`:''}`;
   else if(s.type==='quiz') inner=`<p>${s.q}</p><div class="opts">${s.opts.map(o=>`<button class="opt" data-ok="${o.ok}" data-step="${i}">${o.t}</button>`).join('')}</div><div class="feedback" id="fb-${i}"></div>`;
   else if(s.type==='match') inner=`<p>Arrastra cada tarjeta a su categoría.</p><div class="match-wrap"><div class="pool">${s.pool.map(p=>`<div class="drag" draggable="true" data-id="${p.id}">${p.t}</div>`).join('')}</div><div class="targets">${s.targets.map(t=>`<div class="target" data-ans="${t.ans}"><b>${t.label}</b></div>`).join('')}</div></div><div class="feedback" id="fb-${i}"></div>`;
-  else if(s.type==='reflect') inner=`<p>${s.body}</p><textarea placeholder="${(s.prompt||'').replace(/"/g,'&quot;')}"></textarea>`;
+  else if(s.type==='reflect') inner=`<p>${s.body}</p><textarea id="ta-${i}" placeholder="${(s.prompt||'').replace(/"/g,'&quot;')}"></textarea>
+    <div class="dl-row"><button type="button" class="btn ghost dl-btn" data-step="${i}" onclick="downloadReflection(this)">📄 Descargar mi respuesta</button><span class="dl-hint">Solo para tareas escritas (no video). Descárgala y súbela a tu carpeta de evidencias.</span></div>`;
   return `<div class="step" data-step="${i}"><div class="kicker">${s.kicker} · paso ${i+1} de ${total}</div><h3>${s.h}</h3>${inner}${navHtml(i,total)}</div>`;
 }
 function navHtml(i,total){
@@ -299,6 +300,28 @@ function bindInteractions(cap){
       }
     });
   });
+}
+
+/* ---------- Descargar respuesta escrita (evidencia) ---------- */
+function downloadReflection(btn){
+  const i = btn.dataset.step;
+  const ta = document.getElementById('ta-'+i);
+  const text = (ta.value||'').trim();
+  if(!text){ alert('Escribe tu respuesta antes de descargarla.'); return; }
+  const {gid, mo, week} = STATE.capsule;
+  const g = EL_GRADES.find(x=>x.id===gid);
+  const cap = capsuleFor(gid, mo, week);
+  const step = cap.steps[i];
+  const header = `Chanak Extensión Local — ${g.label}\n${MONTH_FULL[mo]} · Semana ${week} · ${cap.title}\n${'='.repeat(50)}\n\n`;
+  const question = step.prompt ? `Consigna:\n${step.prompt}\n\n` : '';
+  const content = header + question + `Mi respuesta:\n${text}\n\n— Chanak International Academy · Extensión Local (LOMLOE)`;
+  const blob = new Blob([content], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const safeName = (gid+'_'+mo+'_S'+week).replace(/[^\w\-]+/g,'_').slice(0,60);
+  a.href = url; a.download = safeName+'.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
 }
 
 function finishCapsule(){
