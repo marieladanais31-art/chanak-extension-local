@@ -113,6 +113,55 @@ header.top{position:sticky;top:0;z-index:50;background:rgba(251,250,247,.92);bac
 .tip-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
 .tip-card h5{font-size:14px;color:var(--navy);margin-bottom:6px}
 .tip-card p{font-size:13px;color:var(--muted)}
+/* WEEK CARDS (semanas con cápsula interactiva) */
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:6px}
+.wcard{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:16px;cursor:pointer;transition:.15s;position:relative}
+.wcard:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:#c9d3e0}
+.wcard .wk-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);font-weight:700}
+.wcard h5{font-size:14px;color:var(--navy);margin:6px 0 4px;font-family:'Fraunces',serif}
+.wcard p{font-size:12px;color:var(--muted)}
+.wcard .wk-foot{margin-top:10px;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600}
+.wcard.plain{cursor:default}
+.wcard.plain:hover{transform:none;box-shadow:none;border-color:var(--line)}
+.chip.done{background:var(--navy);color:#fff;padding:2px 8px;border-radius:20px}
+.chip.soon{background:var(--gold-soft);color:var(--gold);padding:2px 8px;border-radius:20px}
+/* CAPSULE (motor interactivo semanal, adaptado de Chanak Life Skills) */
+.capsule{max-width:720px;margin:0 auto}
+.progress-line{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin:20px 0 30px}
+.progress-line i{display:block;height:100%;background:var(--green);width:0;transition:width .4s}
+.step{display:none}
+.step.active{display:block;animation:fade .35s ease}
+.step .kicker{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.step h3{font-size:24px;color:var(--navy);margin-bottom:16px;font-family:'Fraunces',serif}
+.step p{color:var(--ink);margin-bottom:14px;font-size:15px}
+.scenario{background:var(--navy);color:#eaf0f8;border-radius:var(--radius);padding:22px;font-family:'Fraunces',serif;font-size:18px;line-height:1.4;margin-bottom:10px}
+.diagram{background:var(--green-soft);border:1px solid #c3e0cd;border-radius:var(--radius);padding:20px;margin:16px 0}
+.opt{display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:9px;cursor:pointer;font-size:14px;font-family:inherit;color:var(--ink);transition:.15s}
+.opt:hover{border-color:var(--green)}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:#d98b8b;background:#fbecec}
+.feedback{font-size:14px;padding:13px 16px;border-radius:12px;margin-top:6px;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:var(--green-soft);color:var(--green)}
+.feedback.no{background:#fbecec;color:#b0413c}
+.match-wrap{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0}
+.pool,.targets{display:flex;flex-direction:column;gap:9px}
+.drag{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13px;cursor:grab;user-select:none}
+.drag.dragging{opacity:.4}
+.target{border:1.5px dashed var(--line);border-radius:10px;padding:11px 13px;font-size:13px;min-height:44px;background:#fdfdfc}
+.target b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px}
+.target.over{border-color:var(--green);background:var(--green-soft)}
+.target.filled{border-style:solid;border-color:var(--green)}
+.target .placed{background:var(--navy);color:#fff;border-radius:8px;padding:5px 9px;margin-top:5px;font-size:12px}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:13px;font-family:inherit;font-size:14px;resize:vertical;min-height:100px}
+textarea:focus{outline:none;border-color:var(--green)}
+.step-nav{display:flex;justify-content:space-between;margin-top:26px;gap:12px}
+.done-card{text-align:center;padding:36px 18px}
+.done-card .medal{font-size:50px}
+.done-card h3{font-size:26px;color:var(--navy);margin:10px 0}
+.done-card p{color:var(--muted);max-width:420px;margin:0 auto 18px}
+.coins-earned{display:inline-flex;align-items:center;gap:8px;background:var(--gold-soft);color:var(--gold);font-weight:700;padding:9px 18px;border-radius:24px;margin-bottom:20px}
+@media(max-width:600px){.match-wrap{grid-template-columns:1fr}}
 footer{border-top:1px solid var(--line);padding:24px 0;text-align:center;font-size:12px;color:var(--muted)}
 footer b{color:var(--navy)}
 @media(max-width:600px){.top-inner{flex-wrap:wrap}.badges{width:100%;margin-left:0}}
@@ -177,12 +226,26 @@ footer b{color:var(--navy)}
   </div>
 </div>
 
+<!-- CAPSULE (semana interactiva) -->
+<div class="view" id="view-capsule">
+  <div class="wrap">
+    <button class="back" id="cap-back">← Volver al mes</button>
+    <div class="capsule">
+      <div class="eyebrow" id="cap-eyebrow"></div>
+      <h2 id="cap-title" style="color:var(--navy);font-size:26px;font-family:'Fraunces',serif"></h2>
+      <div class="progress-line"><i id="cap-bar"></i></div>
+      <div id="cap-steps"></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <b>Chanak International Academy</b> · FLDOE #134620 · MSA Candidacy · Extensión Local (LOMLOE)<br>
   El portal orienta · el SIS registra la información oficial
 </footer>
 
 <script src="data-curriculum.js"></script>
+<script src="data-capsules-eso1.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
