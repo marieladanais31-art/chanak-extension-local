@@ -54,9 +54,8 @@ async function awardCoinsToSis(amount, reason, refKey){
         'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
       },
       body: JSON.stringify({
-        p_student_id: STATE.studentId,
         p_token: STATE.token,
-        p_coins: amount,
+        p_amount: amount,
         p_reason: reason,
         p_idempotency_key: idempotencyKey
       })
