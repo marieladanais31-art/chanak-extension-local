@@ -15,7 +15,10 @@ function capsuleFor(gid,mo,week){
   return (typeof EL_CAPSULES !== 'undefined' && EL_CAPSULES[gid+':'+mo+':'+week]) || null;
 }
 
-/* ---------- Progress (localStorage) ---------- */
+/* ---------- Progress (localStorage & SIS Integration) ---------- */
+const SUPABASE_URL = 'https://gepsbesbhsxfyxymemim.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlcHNiZXNiaHN4Znl4eW1lbWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgxNjg1MjgsImV4cCI6MjA4Mzc0NDUyOH0.VQ6q4ex-tWp2Nr2YK-Sd7PPGCZgcQvQUmTGNNjZtp5Q';
+
 const LS = {
   get(k){ try { return JSON.parse(localStorage.getItem(k)); } catch(e){ return null; } },
   set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
@@ -25,8 +28,48 @@ if(!PROG.doneWeek) PROG.doneWeek = {};
 function saveProg(){ LS.set('chanak_el_progress', PROG); }
 function updateCoins(){ document.getElementById('coinCount').textContent = PROG.coins; }
 
+function showCoinToast(msg){
+  const t = document.getElementById('coin-toast');
+  const m = document.getElementById('coin-toast-msg');
+  if(!t || !m) return;
+  m.textContent = msg;
+  t.style.transform = 'translateY(0)';
+  t.style.opacity = '1';
+  setTimeout(()=>{
+    t.style.transform = 'translateY(100px)';
+    t.style.opacity = '0';
+  }, 3500);
+}
+
+async function awardCoinsToSis(amount, reason, refKey){
+  showCoinToast(`+${amount} ChanakCoins · ${reason}`);
+  if (!STATE.token || !STATE.studentId) return;
+  try {
+    const idempotencyKey = refKey || `el_${STATE.studentId}_${Date.now()}`;
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/award_life_skills_coins`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify({
+        p_student_id: STATE.studentId,
+        p_token: STATE.token,
+        p_coins: amount,
+        p_reason: reason,
+        p_idempotency_key: idempotencyKey
+      })
+    });
+    const data = await res.json();
+    console.log('ChanakCoins sync with SIS RPC:', data);
+  } catch (err) {
+    console.warn('Could not sync coins with SIS RPC:', err);
+  }
+}
+
 /* ---------- Views ---------- */
-const STATE = { grade:null, monthKey:null, capsule:null, step:0 };
+const STATE = { grade:null, monthKey:null, capsule:null, step:0, token:null, studentId:null, studentName:null, schoolYear:null };
 function showView(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
@@ -205,6 +248,9 @@ function markMonth(key){
   PROG.coins += wasDone ? -COINS_PER_MONTH : COINS_PER_MONTH;
   if(PROG.coins < 0) PROG.coins = 0;
   saveProg(); updateCoins();
+  if(!wasDone){
+    awardCoinsToSis(COINS_PER_MONTH, `Entregable mensual (${key})`, `el_mo_${key}`);
+  }
   const b = document.getElementById('tb-mark');
   if(b){
     b.textContent = PROG.done[key] ? 'Completado ✓' : `Marcar como completado (+${COINS_PER_MONTH} 🪙)`;
@@ -214,6 +260,27 @@ function markMonth(key){
 
 /* ---------- Init ---------- */
 window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('token')) {
+    STATE.token = params.get('token');
+    STATE.studentId = params.get('student_id');
+    STATE.studentName = params.get('student_name');
+    STATE.schoolYear = params.get('school_year');
+    
+    if (STATE.studentName) {
+      const badgesContainer = document.querySelector('.badges');
+      if (badgesContainer) {
+        const studentPill = document.createElement('span');
+        studentPill.className = 'badge';
+        studentPill.style.background = '#dbeafe';
+        studentPill.style.color = '#1e40af';
+        studentPill.style.border = '1px solid #93c5fd';
+        studentPill.textContent = `🎓 Estudiante: ${decodeURIComponent(STATE.studentName)}`;
+        badgesContainer.insertBefore(studentPill, badgesContainer.firstChild);
+      }
+    }
+  }
+
   updateCoins();
   renderHome();
   showView('home');
@@ -328,7 +395,14 @@ function finishCapsule(){
   const {gid, mo, week} = STATE.capsule;
   const key = gid+':'+mo+':'+week;
   const cap = capsuleFor(gid, mo, week);
-  if(!PROG.doneWeek[key]){ PROG.doneWeek[key]=true; PROG.coins+=COINS_PER_WEEK; saveProg(); updateCoins(); }
+  if(!PROG.doneWeek[key]){
+    PROG.doneWeek[key]=true;
+    PROG.coins+=COINS_PER_WEEK;
+    saveProg();
+    updateCoins();
+    const g = EL_GRADES.find(x=>x.id===gid);
+    awardCoinsToSis(COINS_PER_WEEK, `Cápsula completada (${(g&&g.label)||gid} · S${week})`, `el_wk_${key}`);
+  }
   document.getElementById('cap-steps').innerHTML = `<div class="step active done-card">
     <div class="medal">🏅</div><h3>¡Cápsula completada!</h3>
     <div class="coins-earned">🪙 +${COINS_PER_WEEK} ChanakCoins</div>
