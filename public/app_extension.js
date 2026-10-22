@@ -359,6 +359,19 @@
       '<div class="ps-preview">' + sheet + '</div></div>';
   }
 
+  /* ---------- Guía PDF del grado (vive aquí, en la app, no en el perfil del estudiante del SIS) ---------- */
+  var GUIDE_ID = { p1: '1znl_vunUb_AZtWr3wHRe7xyVFNHFDggD', p2: '1HamTUEd6FJ-dgnprlchXNDrBqXD06fWe', p3: '1RjukA49Mcc1u1xMuG-9nsJ_fDTdTmm2T', p4: '11HHcHukJGdD8iJgwqXV9THTv8TN47zHr', p5: '1MQXv0xjXJ4WFTmVKMlSt2yR56rGjn_kK', p6: '1E7AsD-k4V5iaL-9hfzG8KHAeW-yh62z9',
+    eso1: '1sUP6ditzS4LON3xGMRpc5nQrHmPDjvV-', eso2: '1Ki6dGB-UcoSSiIO50ux-3WP5lRfMgNIV', eso3: '1cdhqlqw2AjYYkG1LIgx1c-S3ZwBF6CDH', eso4: '1HZERGeuuAxKoI693p7f5mdkhfXnJAKlW', bach1: '1VtDCQwMY3DcZlAxMrTn3zKs4GyN3UoaR', bach2: '1Zg2YN2X4xVJAJa8Tv4R_S_mAK6EE3z95' };
+  C.guideUrl = function (gid) { return GUIDE_ID[gid] ? 'https://drive.google.com/file/d/' + GUIDE_ID[gid] + '/view' : null; };
+  var _openGradeG = window.openGrade;
+  window.openGrade = function (gid) {
+    _openGradeG(gid);
+    var u = C.guideUrl(gid), host = $('gr-subjects'); if (!u || !host) return;
+    var old = $('gr-guide'); if (old) old.remove();
+    var a = document.createElement('a'); a.id = 'gr-guide'; a.className = 'btn ghost'; a.href = u; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.style.cssText = 'display:inline-block;margin-top:12px';
+    a.textContent = '📄 Guía PDF de tu grado'; host.parentNode.insertBefore(a, host.nextSibling);
+  };
+
   /* ---------- Modo demostración (sin token): muestra Primaria y Secundaria con Checkpoint ---------- */
   S.demo = !hasToken();
   function demoBanner() {
