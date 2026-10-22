@@ -55,3 +55,6 @@ Variables de Vercel para la subida de boletines: `SUPABASE_URL` y `SUPABASE_SERV
 - **Longitud de la lectura por grado**: 1.º-2.º 250-350 palabras · 3.º-4.º 400-520 · 5.º-6.º 550-800 · ESO 650-950 · Bachillerato 750-950.
 - `docs/VERIFICAR_CONTENIDO.md`: datos que el equipo curricular debe confirmar antes de publicar como oficial.
 - Pruebas: `node tests/deep.test.mjs` (más las de núcleo, API y catálogo).
+
+## Panamá · guías oficiales de MEDUCA
+`meduca_guides.js` + `meduca_extension.js`: acceso directo, por grado, a las guías del estudiante y del docente y a los programas de estudio de MEDUCA (Español, Ciencias Sociales, Historia, Geografía y Cívica), tomados de https://guias.meduca.gob.pa/. No modifica las unidades de Panamá. Los enlaces se comprobaron el 23-oct-2026; si MEDUCA los mueve hay que regenerarlos. Prueba: `node tests/meduca.test.mjs`.
