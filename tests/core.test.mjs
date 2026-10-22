@@ -1,0 +1,17 @@
+import assert from 'node:assert';
+import { createRequire } from 'node:module';
+const C = createRequire(import.meta.url)('../public/el-core.js');
+assert.equal(C.W.c + C.W.e + C.W.l, 100);
+assert.deepEqual(C.unitScore({ correct: 4, total: 5, execLevel: 3, localLevel: 4 }), { k: 24, e: 30, l: 30, weighted: 84, mastery: true });
+assert.equal(C.unitScore({ correct: 5, total: 5, execLevel: 4, localLevel: 4 }).weighted, 100);
+assert.equal(C.unitScore({ correct: 0, total: 5, execLevel: 1, localLevel: 1 }).weighted, 17.5);
+assert.equal(C.unitScore({ correct: 3, total: 5, execLevel: 3, localLevel: 3 }).mastery, false);
+const q = C.quarterGrades([{ quarter: 'Q1', weighted: 80 }, { quarter: 'Q1', weighted: 90 }, { quarter: 'Q2', weighted: 70 }]);
+assert.equal(q.Q1.grade, 85); assert.equal(q.Q3.grade, null); assert.equal(q.final, 77.5);
+assert.equal(C.letter(89.9), 'B'); assert.equal(C.letter(null), '—');
+assert.equal(C.unitKey('us', 'world_language', 'spanish1', 'Oct'), 'us:world_language:spanish1:Oct');
+assert.equal(C.quarterOf('Feb'), 'Q2');
+const p = C.parseParams('?token=a.b&student_id=x&student_name=Ana%20P&school_year=2026-2027');
+assert.equal(p.studentName, 'Ana P'); assert.equal(p.token, 'a.b');
+assert.equal(C.routeForCountry('Estados Unidos'), 'us'); assert.equal(C.routeForCountry('España'), 'es'); assert.equal(C.routeForCountry('Panamá'), 'pa'); assert.equal(C.routeForCountry(''), null);
+console.log('el-core OK');

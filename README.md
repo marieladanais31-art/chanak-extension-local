@@ -32,3 +32,13 @@ vercel --prod
 
 ---
 © Chanak International Academy · Uso interno de la red EducaFe–Chanak.
+
+## Módulo oficial del 20 % (v2)
+
+- **Rutas geográficas**: España (LOMLOE, currículo anterior), Estados Unidos (Florida State History & Deep Civics · World Language Spanish 1/2 · Personal Finance & Technology) y Panamá/Latinoamérica (Lengua Española · Geografía e Historia nacional). Datos en `public/data-routes.js` (borrador para revisión del equipo curricular).
+- **Modalidad A (Homeschool guiado)**: cuestionario (Conocimiento 30 %) + niveles de rúbrica para Ejecución (40 %) y Conexión local y fe (30 %). Dominio (Mastery) ≥ 80.
+- **Modalidad B (Dual Diploma / colegio local)**: subida de boletines trimestrales (`/api/upload-report`) a Storage `student-folders/<student_id>/03 Extensión Local/…`.
+- **SIS**: lee `token`, `student_id`, `student_name`, `school_year` (y opcionalmente `mode`, `route`) de la URL; envía cada unidad con `submit_extension_local_grade` (los puntos se recalculan en el servidor). Requiere la migración `20261042_extension_local_20.sql` del repo SIS.
+- **Ficha trimestral imprimible** (`@media print`).
+- Variables en Vercel para la subida: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
+- Pruebas: `node tests/core.test.mjs && node tests/api.test.mjs`.

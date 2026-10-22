@@ -169,6 +169,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;text-align:center;font-si
 footer b{color:var(--navy)}
 @media(max-width:600px){.top-inner{flex-wrap:wrap}.badges{width:100%;margin-left:0}}
 </style>
+<link rel="stylesheet" href="el-routes.css">
 </head>
 <body>
 
@@ -189,6 +190,7 @@ footer b{color:var(--navy)}
 <!-- HOME -->
 <div class="view" id="view-home">
   <div class="wrap">
+    <div id="route-bar"></div>
     <div class="hero">
       <div class="eyebrow">Lengua · Historia · Geografía · Cultura · Fe</div>
       <h2>Cuaderno interactivo de Extensión Local</h2>
@@ -242,6 +244,12 @@ footer b{color:var(--navy)}
   </div>
 </div>
 
+<!-- RUTAS (EE. UU. / Panamá-LatAm), unidad, boletines y ficha -->
+<div class="view" id="view-route"></div>
+<div class="view" id="view-unit"></div>
+<div class="view" id="view-reports"></div>
+<div class="view" id="view-sheet"></div>
+
 <footer>
   <b>Chanak International Academy</b> · FLDOE #134620 · MSA Candidacy · Extensión Local (LOMLOE)<br>
   El portal orienta · el SIS registra la información oficial
@@ -262,5 +270,9 @@ footer b{color:var(--navy)}
 <script src="data-capsules-p6.js"></script>
 <script src="data-capsules-eso2.js"></script>
 <script src="app.js"></script>
+<script src="el-core.js"></script>
+<script src="data-routes.js"></script>
+<script src="el-routes.js"></script>
+<div id="print-sheet" aria-hidden="true"></div>
 </body>
 </html>
