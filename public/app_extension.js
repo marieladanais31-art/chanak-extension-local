@@ -179,6 +179,7 @@
     }).join('') + '</div>';
   }
   function evalCard(c) {
+    if (window.ELKid && window.ELKid.active(c)) return window.ELKid.evalCard(c);
     var u = c.unit, r = U[c.key] || {}, locked = r.status === 'approved', cp = cpOf(c);
     var hasQuiz = !!(u && u.quiz && u.quiz.length), ans = S.answers[c.key] || [];
     var k = '<div class="el-sec"><div class="el-top"><b>' + T('Conocimiento', 'Knowledge') + '</b><span>30 %</span></div>';
@@ -381,5 +382,5 @@
     var want = (P.route && C.ROUTES[P.route]) ? P.route : C.routeForCountry(P.country);
     if (want && want !== 'es') window.elOpenRoute(want);
   });
-  window.ELUI = { S: S, U: U, T: T };
+  window.ELUI = { S: S, U: U, T: T, esc: esc, C: C, gradeOf: gradeOf, stageOf: stageOfCtx, refresh: refreshEval, cur: function () { return S.cur; }, hasToken: hasToken, cpOf: cpOf, monthName: monthName };
 })();

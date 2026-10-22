@@ -15,3 +15,6 @@ const p = C.parseParams('?token=a.b&student_id=x&student_name=Ana%20P&school_yea
 assert.equal(p.studentName, 'Ana P'); assert.equal(p.token, 'a.b');
 assert.equal(C.routeForCountry('Estados Unidos'), 'us'); assert.equal(C.routeForCountry('España'), 'es'); assert.equal(C.routeForCountry('Panamá'), 'pa'); assert.equal(C.routeForCountry(''), null);
 console.log('el-core OK');
+assert.equal(C.starsOf(95), 3); assert.equal(C.starsOf(85), 2); assert.equal(C.starsOf(10), 1); assert.equal(C.starsOf(null), 0);
+assert.equal(C.kidLevel(0).level.es, 'Semilla'); assert.equal(C.kidLevel(250).index, 2); assert.equal(C.kidLevel(250).toNext, 50); assert.equal(C.kidLevel(9999).level.es, 'Embajador');
+console.log('kid core OK');
