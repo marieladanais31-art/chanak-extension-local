@@ -22,3 +22,9 @@ for (const file of manifest) {
   }
 }
 console.log('deep OK:', manifest.join(', '));
+// Recursos interactivos: cuando existen, están completos
+for (const file of manifest) { const D = load(file + '.js').EL_DEEP; for (const [k, u] of Object.entries(D)) {
+  if (u.timeline) { assert.ok(u.timeline.length >= 5 && u.timeline.length <= 7, k + ' timeline'); assert.equal(u.scene.icons.length, 3, k); assert.ok(u.media.length >= 2, k + ' media'); }
+  if (u.map) u.map.markers.forEach((m) => { assert.ok(m.lat >= 35 && m.lat <= 44 && m.lon >= -10 && m.lon <= 4.5, k + ' mapa ' + m.name); });
+} }
+console.log('recursos interactivos OK');
