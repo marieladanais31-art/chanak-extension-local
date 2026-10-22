@@ -12,10 +12,10 @@
     es: { id: 'es', lang: 'es', label: { es: 'España · LOMLOE', en: 'Spain · LOMLOE' }, flag: '🇪🇸',
       desc: { es: 'Lengua Castellana y Literatura, Geografía e Historia de España / autonómica.', en: 'Spanish Language & Literature, Geography and History of Spain.' }, tracks: [] },
     us: { id: 'us', lang: 'en', label: { es: 'Estados Unidos', en: 'United States' }, flag: '🇺🇸',
-      desc: { es: 'Elige una de tres pistas: Historia de Florida y Civismo, Idioma extranjero (Español 1 / 2) o Finanzas personales y Tecnología.', en: 'Choose one of three tracks: Florida History & Deep Civics, World Language (Spanish 1 / 2), or Personal Finance & Technology.' },
+      desc: { es: 'Elige una de tres pistas: Historia de Florida y Civismo profundo, Opción B (Idioma extranjero e Historia de la Iglesia Iberoamericana: Español 1, 2 o conversacional) o Finanzas personales y Tecnología.', en: 'Choose one of three tracks: Florida History & Deep Civics, Option B (World Language & Ibero-American Church History: Spanish 1, 2 or Conversational), or Personal Finance & Technology.' },
       tracks: [
         { id: 'fl_civics', label: { es: 'Historia de Florida y Civismo profundo', en: 'Florida State History & Deep Civics' }, icon: '🏛️', data: 'us.civics' },
-        { id: 'world_language', label: { es: 'Idioma extranjero: Español 1 / Español 2', en: 'World Language: Spanish 1 / Spanish 2' }, icon: '🗣️', data: 'us.world_language', levels: [{ id: 'spanish1', label: { es: 'Español 1', en: 'Spanish 1' } }, { id: 'spanish2', label: { es: 'Español 2', en: 'Spanish 2' } }] },
+        { id: 'world_language', label: { es: 'Opción B · Idioma extranjero e Historia de la Iglesia Iberoamericana', en: 'Option B · World Language & Ibero-American Church History' }, icon: '🗣️', data: 'us.world_language', levels: [{ id: 'spanish1', label: { es: 'Español 1', en: 'Spanish 1' } }, { id: 'spanish2', label: { es: 'Español 2', en: 'Spanish 2' } }, { id: 'conversational', label: { es: 'Español conversacional', en: 'Conversational Spanish' } }] },
         { id: 'finance_tech', label: { es: 'Finanzas personales y Tecnología', en: 'Personal Finance & Technology' }, icon: '💳', data: 'us.finance' } ] },
     pa: { id: 'pa', lang: 'es', label: { es: 'Panamá / Latinoamérica', en: 'Panama / Latin America' }, flag: '🇵🇦',
       desc: { es: 'Lengua Española y Geografía e Historia nacional.', en: 'Spanish Language and national Geography & History.' },
@@ -60,7 +60,7 @@
   function parseParams(search) {
     var p = new URLSearchParams(search || '');
     var dec = function (v) { try { return v ? decodeURIComponent(v) : v; } catch (e) { return v; } };
-    return { token: p.get('token'), studentId: p.get('student_id'), studentName: dec(p.get('student_name')), schoolYear: p.get('school_year'), mode: p.get('mode'), route: p.get('route') };
+    return { token: p.get('token'), studentId: p.get('student_id'), studentName: dec(p.get('student_name')), schoolYear: p.get('school_year'), mode: p.get('mode'), route: p.get('route'), country: dec(p.get('country')), gradeLevel: dec(p.get('grade_level')) };
   }
   // Ruta sugerida por país de la ficha / modalidad (para abrir directamente la ruta correcta)
   function routeForCountry(c) {
@@ -72,9 +72,31 @@
   // Levanta datos desde window.EL_DATA con rutas tipo 'us.civics'
   function pick(data, path) { return String(path).split('.').reduce(function (o, k) { return o && o[k]; }, data); }
 
+  // "Grade 4", "4.º Primaria", "ESO 2" (=8), "1.º Bachillerato" (=11), "Kindergarten"(=0) → 0..12 o null
+  function gradeNum(text) {
+    var t = String(text == null ? '' : text).toLowerCase();
+    if (!t.trim()) return null;
+    if (/kinder/.test(t)) return 0;
+    var m = t.match(/grade\s*(\d{1,2})/) || t.match(/(\d{1,2})/); var n = m ? Number(m[1]) : NaN;
+    if (isNaN(n)) return null;
+    if (/eso/.test(t) && !/grade/.test(t)) n += 6; else if (/bach/.test(t) && !/grade/.test(t)) n += 10;
+    return n >= 0 && n <= 12 ? n : null;
+  }
+  // Primaria / Elementary = grados 1-6 · Secundaria y Bachillerato = 7-12
+  function stageOf(g) { return g == null ? null : (g <= 6 ? 'primary' : 'secondary'); }
+  function bandOf(g) { return g <= 5 ? 'elem' : g <= 8 ? 'middle' : 'high'; }
+  // Checkpoint de cosmovisión: 5 criterios 0-4 → % (umbral de dominio 80)
+  function checkpointPct(scores) {
+    if (!scores || scores.length !== 5 || scores.some(function (x) { return x == null || x === ''; })) return null;
+    return Math.round(scores.reduce(function (s, x) { return s + clamp(x, 0, 4); }, 0) / 20 * 1000) / 10;
+  }
+  function wordCount(t) { return String(t || '').trim() ? String(t).trim().split(/\s+/).length : 0; }
+  // Dominio de la unidad: nota ≥ 80 y, si hay checkpoint, checkpoint ≥ 80
+  function unitMastery(weighted, cpRequired, cpPct) { return weighted != null && weighted >= MASTERY && (!cpRequired || (cpPct != null && cpPct >= MASTERY)); }
+
   var api = { W: W, MASTERY: MASTERY, MONTHS: MONTHS, MONTH_Q: MONTH_Q, QUARTERS: QUARTERS, ROUTES: ROUTES, LEVELS: LEVELS,
     knowledgePts: knowledgePts, levelPts: levelPts, unitScore: unitScore, quarterGrades: quarterGrades, letter: letter,
-    unitKey: unitKey, quarterOf: quarterOf, parseParams: parseParams, routeForCountry: routeForCountry, pick: pick };
+    unitKey: unitKey, quarterOf: quarterOf, parseParams: parseParams, routeForCountry: routeForCountry, gradeNum: gradeNum, stageOf: stageOf, bandOf: bandOf, checkpointPct: checkpointPct, wordCount: wordCount, unitMastery: unitMastery, CP_MIN_WORDS: 120, pick: pick };
   root.ELCore = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window !== 'undefined' ? window : globalThis);

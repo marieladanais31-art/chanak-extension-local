@@ -35,10 +35,14 @@ vercel --prod
 
 ## Módulo oficial del 20 % (v2)
 
-- **Rutas geográficas**: España (LOMLOE, currículo anterior), Estados Unidos (Florida State History & Deep Civics · World Language Spanish 1/2 · Personal Finance & Technology) y Panamá/Latinoamérica (Lengua Española · Geografía e Historia nacional). Datos en `public/data-routes.js` (borrador para revisión del equipo curricular).
-- **Modalidad A (Homeschool guiado)**: cuestionario (Conocimiento 30 %) + niveles de rúbrica para Ejecución (40 %) y Conexión local y fe (30 %). Dominio (Mastery) ≥ 80.
-- **Modalidad B (Dual Diploma / colegio local)**: subida de boletines trimestrales (`/api/upload-report`) a Storage `student-folders/<student_id>/03 Extensión Local/…`.
-- **SIS**: lee `token`, `student_id`, `student_name`, `school_year` (y opcionalmente `mode`, `route`) de la URL; envía cada unidad con `submit_extension_local_grade` (los puntos se recalculan en el servidor). Requiere la migración `20261042_extension_local_20.sql` del repo SIS.
-- **Ficha trimestral imprimible** (`@media print`).
-- Variables en Vercel para la subida: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`.
-- Pruebas: `node tests/core.test.mjs && node tests/api.test.mjs`.
+**Un solo SQL**: `sql/20261042_extension_local_20.sql` (copia en `.claude/backup/28_extension_local_20.sql` del SIS). Se ejecuta una vez en el SQL Editor de Supabase.
+Variables de Vercel para la subida de boletines: `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY`.
+
+- **Archivos**: `index.html` (selector de ruta, grado/etapa, modo demostración y plantilla `@media print`), `content_extension.js` (catálogo: rutas EE. UU./Panamá, Checkpoints de Cosmovisión y ejes de Lengua), `app_extension.js` (navegación, rúbrica 30/40/30, compuertas de dominio, REST con Supabase, impresión), `extension.css` (marino #0f172a, dorado #f59e0b, A4 vertical) y `el-core.js` (cálculo puro, con pruebas).
+- **Etapas**: Primaria (1.º-6.º) sin hominización ni evolucionismo y con enfoque de la creación/diseño inteligente, la dignidad humana y la narrativa providencial; Secundaria y Bachillerato (7.º-12.º) con teorías seculares contrastadas y el **Biblical Worldview Checkpoint** (Imago Dei, Gn 1:26-27, Hch 17:26): ensayo de ≥ 120 palabras, 5 criterios 0-4, dominio ≥ 80 %.
+- **Lengua** (España, Panamá): 4 ejes continuos (oral/retórica, gramática y ortografía, redacción y estilo, canon literario clásico, cristiano y moral).
+- **Rutas**: España (LOMLOE, currículo anterior intacto), Estados Unidos (Florida History & Deep Civics · **Opción B: World Language & Ibero-American Church History** con Spanish 1/2/Conversational y el proyecto «La Brecha y Cómo Alcanzar» · Personal Finance & Technology) y Panamá/Latinoamérica (Lengua Española · Geografía e Historia nacional).
+- **Modalidad A (Homeschool)**: checkups de dominio (cuestionario 30 %), Ejecución 40 % y Conexión local y fe 30 %; unidad imprimible A4 («Descargar / Imprimir Unidad en PDF»). **Modalidad B (Dual Diploma)**: subida de boletines a `student-folders/<student_id>/03 Extensión Local/…` (`/api/upload-report`).
+- **URL**: `token`, `student_id`, `student_name`, `school_year`, `country` (abre la ruta), `grade_level` (fija etapa y banda), `mode`, `route`. Sin token: **modo demostración** (muestras de Primaria y de Secundaria con Checkpoint).
+- Los puntos se recalculan en el servidor (`submit_extension_local_grade`); toda nota entra «pendiente de revisión».
+- Pruebas: `node tests/core.test.mjs && node tests/api.test.mjs && node tests/content.test.mjs`.

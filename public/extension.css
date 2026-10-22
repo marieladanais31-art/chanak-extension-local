@@ -40,3 +40,32 @@
   #print-sheet{display:block!important;padding:0;color:#000;font-size:12px}
   @page{margin:14mm}
 }
+
+/* ===== Institucional (#0f172a marino · #f59e0b dorado) para los componentes nuevos ===== */
+:root{--ext-navy:#0f172a;--ext-gold:#f59e0b}
+.rt-chip.on,.rt-seg.on{background:var(--ext-navy);border-color:var(--ext-navy)}
+.rt-title,.el-top{color:var(--ext-navy)}
+.el-big{color:var(--ext-navy)}
+.el-lv.on{border-color:var(--ext-gold);background:#fffbeb}
+.gcard.rt-sel{border-color:var(--ext-gold);box-shadow:0 0 0 2px var(--ext-gold) inset}
+.el-demo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.el-cp{border:2px solid var(--ext-navy);border-radius:14px;overflow:hidden;background:#fff}
+.el-cp-h{background:var(--ext-navy);color:#fff;padding:10px 14px;font-weight:700}.el-cp-h small{color:var(--ext-gold);font-weight:600}
+.el-cp-b{padding:12px 14px;border-top:1px solid var(--line);font-size:14px}.el-cp-b.truth{background:#fffbeb;border-left:4px solid var(--ext-gold)}
+.el-cp-b b{display:block;color:var(--ext-navy);margin-bottom:4px}
+.el-essay{width:100%;min-height:160px;margin-top:8px;padding:10px;border:1px solid var(--line);border-radius:8px;font:14px/1.5 Inter,sans-serif}
+.el-wc{font-size:12px;color:#9a3412;margin-top:4px}.el-wc.ok{color:var(--green)}
+.el-crit{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:6px 0;border-bottom:1px dashed var(--line);font-size:13px}.el-crit select{width:64px}
+.el-axes,.el-church{border-left:4px solid var(--ext-gold);padding-left:12px}
+/* Unidad imprimible A4 vertical */
+.pu-head{display:flex;gap:12px;align-items:center;border-bottom:3px solid var(--ext-navy);padding-bottom:8px;margin-bottom:10px}
+.pu-crest{width:42px;height:42px;border-radius:9px;background:var(--ext-navy);color:var(--ext-gold);display:grid;place-items:center;font:700 22px Fraunces,serif;flex-shrink:0}
+.pu-title{font:600 20px Fraunces,serif;color:var(--ext-navy);margin:10px 0 2px}.pu-sub{font-size:12px;color:#444;margin-bottom:6px}
+#print-sheet h4{margin:10px 0 4px;color:var(--ext-navy);font-size:13px}#print-sheet ul,#print-sheet ol{margin:0 0 4px 18px;font-size:12px}
+.pu-line{height:26px;border-bottom:1px solid #8a8f98}.pu-cp{border:1px solid #333;padding:8px;margin:10px 0;break-inside:avoid}
+.pu-box{white-space:nowrap;text-align:center}.pu-pts{white-space:nowrap;text-align:right}
+@media print{
+  @page{size:A4 portrait;margin:14mm}
+  #print-sheet{font-family:Inter,Arial,sans-serif}
+  #print-sheet .pu-line,#print-sheet .el-tbl,#print-sheet .ps-sign{break-inside:avoid}
+}
