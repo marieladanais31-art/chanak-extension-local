@@ -46,3 +46,12 @@ Variables de Vercel para la subida de boletines: `SUPABASE_URL` y `SUPABASE_SERV
 - **URL**: `token`, `student_id`, `student_name`, `school_year`, `country` (abre la ruta), `grade_level` (fija etapa y banda), `mode`, `route`. Sin token: **modo demostración** (muestras de Primaria y de Secundaria con Checkpoint).
 - Los puntos se recalculan en el servidor (`submit_extension_local_grade`); toda nota entra «pendiente de revisión».
 - Pruebas: `node tests/core.test.mjs && node tests/api.test.mjs && node tests/content.test.mjs`.
+
+## LMS profundo (v3)
+
+- `deep_extension.js` + `deep/*.js`: cada unidad de los 12 grados de España y de la Opción B de EE. UU. (Spanish 1, 2 y Conversational) trae lectura académica, glosario, práctica guiada con respuesta modelo y un Checkpoint de dominio de 5 preguntas.
+- **Compuerta**: la lección siguiente se abre con ≥ 80 % (4 de 5) en el checkpoint de la anterior; un supervisor puede desbloquear desde el aviso (no aplica en modo demostración).
+- **Impresión A4**: lectura, glosario y renglones para escribir a mano, con rúbrica 30/40/30 y firmas.
+- **Longitud de la lectura por grado**: 1.º-2.º 250-350 palabras · 3.º-4.º 400-520 · 5.º-6.º 550-800 · ESO 650-950 · Bachillerato 750-950.
+- `docs/VERIFICAR_CONTENIDO.md`: datos que el equipo curricular debe confirmar antes de publicar como oficial.
+- Pruebas: `node tests/deep.test.mjs` (más las de núcleo, API y catálogo).

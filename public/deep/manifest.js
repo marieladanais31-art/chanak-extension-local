@@ -1,1 +1,1 @@
-window.EL_DEEP_MANIFEST = ["es_bach1", "es_bach2", "es_eso1", "es_eso2", "es_eso3", "es_eso4", "ob_conversational", "ob_spanish1", "es_p1", "es_p2", "es_p3", "es_p4", "es_p5", "es_p6"];
+window.EL_DEEP_MANIFEST = ["es_bach1", "es_bach2", "es_eso1", "es_eso2", "es_eso3", "es_eso4", "ob_conversational", "ob_spanish1", "ob_spanish2", "es_p1", "es_p2", "es_p3", "es_p4", "es_p5", "es_p6"];
