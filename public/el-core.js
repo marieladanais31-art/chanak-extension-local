@@ -94,9 +94,14 @@
   // Dominio de la unidad: nota ≥ 80 y, si hay checkpoint, checkpoint ≥ 80
   function unitMastery(weighted, cpRequired, cpPct) { return weighted != null && weighted >= MASTERY && (!cpRequired || (cpPct != null && cpPct >= MASTERY)); }
 
+  // Gamificación (Primaria): estrellas por unidad y nivel por experiencia (XP)
+  var KID_LEVELS = [{ es: 'Semilla', en: 'Seed', icon: '🌱' }, { es: 'Brote', en: 'Sprout', icon: '🌿' }, { es: 'Explorador', en: 'Explorer', icon: '🧭' }, { es: 'Constructor', en: 'Builder', icon: '🔨' }, { es: 'Líder', en: 'Leader', icon: '🦁' }, { es: 'Embajador', en: 'Ambassador', icon: '🏆' }];
+  function starsOf(weighted) { if (weighted == null) return 0; return weighted >= 90 ? 3 : weighted >= 80 ? 2 : weighted > 0 ? 1 : 0; }
+  // 100 XP por nivel (0..5). XP = 50 por unidad dominada + 20 por unidad enviada + monedas locales
+  function kidLevel(xp) { var i = Math.min(KID_LEVELS.length - 1, Math.floor(Math.max(0, xp) / 100)); return { index: i, level: KID_LEVELS[i], pct: i >= KID_LEVELS.length - 1 ? 100 : Math.round((xp % 100)), toNext: i >= KID_LEVELS.length - 1 ? 0 : 100 - Math.round(xp % 100) }; }
   var api = { W: W, MASTERY: MASTERY, MONTHS: MONTHS, MONTH_Q: MONTH_Q, QUARTERS: QUARTERS, ROUTES: ROUTES, LEVELS: LEVELS,
     knowledgePts: knowledgePts, levelPts: levelPts, unitScore: unitScore, quarterGrades: quarterGrades, letter: letter,
-    unitKey: unitKey, quarterOf: quarterOf, parseParams: parseParams, routeForCountry: routeForCountry, gradeNum: gradeNum, stageOf: stageOf, bandOf: bandOf, checkpointPct: checkpointPct, wordCount: wordCount, unitMastery: unitMastery, CP_MIN_WORDS: 120, pick: pick };
+    unitKey: unitKey, quarterOf: quarterOf, parseParams: parseParams, routeForCountry: routeForCountry, starsOf: starsOf, kidLevel: kidLevel, KID_LEVELS: KID_LEVELS, gradeNum: gradeNum, stageOf: stageOf, bandOf: bandOf, checkpointPct: checkpointPct, wordCount: wordCount, unitMastery: unitMastery, CP_MIN_WORDS: 120, pick: pick };
   root.ELCore = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window !== 'undefined' ? window : globalThis);

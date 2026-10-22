@@ -1,0 +1,46 @@
+/* Modo aventura (Primaria 1.º-6.º): mismo lenguaje visual que Life Skills Junior */
+.kd-hud{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:14px 16px;border-radius:18px;border:1px solid #e2e8f0;background:#fff;margin:14px 0;box-shadow:0 2px 10px rgba(15,23,42,.06)}
+.kd-avatar{width:64px;height:64px;border-radius:50%;border:3px solid #f59e0b;background:#fffbeb;font-size:34px;cursor:pointer;line-height:1;transition:transform .15s}.kd-avatar:hover{transform:scale(1.08) rotate(-4deg)}
+.kd-hud-main{flex:1;min-width:200px}.kd-name{margin:0 0 6px;font-size:15px;font-weight:800;color:#0f172a}
+.kd-xp{height:14px;border-radius:999px;background:#e2e8f0;overflow:hidden}.kd-xp i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#f59e0b,#d97706);transition:width .6s ease}
+.kd-sub{margin:6px 0 0;font-size:12px;color:#64748b}.kd-stats{display:flex;gap:14px;font-size:16px;font-weight:800;color:#0f172a}
+.kd-daily{padding:14px 18px;border-radius:18px;border:2px dashed #d97706;background:#fffbeb;font-weight:700;color:#0f172a;margin:6px 0 16px}
+.kd-world{margin:18px 0}.kd-world-h{display:flex;align-items:center;gap:12px;margin-bottom:10px;color:#0f172a}
+.kd-prog{flex:1;height:10px;border-radius:99px;background:#e2e8f0;overflow:hidden}.kd-prog i{display:block;height:100%;background:#16a34a;transition:width .6s}
+.kd-islands{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.kd-island{display:grid;gap:4px;justify-items:center;text-align:center;padding:16px 10px;border-radius:20px;border:3px solid color-mix(in srgb,var(--jk) 35%,#e2e8f0);background:#fff;cursor:pointer;font:inherit;transition:transform .15s,box-shadow .15s}
+.kd-island:hover{transform:translateY(-4px) rotate(-1deg);box-shadow:0 10px 18px rgba(15,23,42,.14)}
+.kd-island.done{background:color-mix(in srgb,var(--jk) 10%,#fff);border-color:var(--jk)}
+.kd-ico{font-size:42px;line-height:1}.kd-island b{font-size:14px;color:#0f172a;min-height:36px;display:flex;align-items:center}.kd-island small{color:#64748b;font-size:11px;font-weight:700;text-transform:uppercase}
+.kd-stars{font-size:20px;letter-spacing:2px}
+body.kid-on .gcard.kd-card,.gcard.kd-card{border:3px solid #fcd34d;border-radius:22px;background:linear-gradient(180deg,#fffbeb,#fff)}
+.gcard.kd-card:hover{transform:translateY(-4px) rotate(-1deg)}
+body.kid-on{font-size:17px}
+body.kid-on .lesson h2{font-size:30px}
+/* misiones */
+.kd-missions{border:3px solid #0f172a;border-radius:22px;padding:16px;background:#fff;margin-top:22px}
+.kd-title{font:700 22px Fraunces,serif;color:#0f172a;margin-bottom:10px}
+.kd-mission{border:2px solid #e2e8f0;border-radius:18px;padding:12px;margin:12px 0;background:#f8fafc}
+.kd-mh{font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;gap:8px;align-items:center}.kd-mh span{font-size:24px}.kd-mh em{margin-left:auto;font-style:normal;background:#fef3c7;color:#92400e;border-radius:999px;padding:2px 10px;font-size:12px}
+.kd-faces{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kd-face{display:grid;gap:4px;justify-items:center;padding:12px 8px;border-radius:16px;border:3px solid #e2e8f0;background:#fff;cursor:pointer;font:inherit;transition:transform .12s}
+.kd-face span{font-size:34px}.kd-face b{font-size:12.5px;color:#0f172a}.kd-face:hover{transform:scale(1.05)}.kd-face.on{border-color:#f59e0b;background:#fffbeb;box-shadow:0 0 0 3px rgba(245,158,11,.3)}
+.kd-goal{font-size:13px;color:#475569;margin:8px 0 0}
+.kd-q{display:grid;gap:8px}.kd-qn{font-size:12px;font-weight:800;color:#d97706;text-transform:uppercase}.kd-qt{font-size:18px;font-weight:700;color:#0f172a}
+.kd-opt{text-align:left;padding:14px 16px;border-radius:16px;border:3px solid #e2e8f0;background:#fff;font:600 16px Inter,sans-serif;cursor:pointer;transition:transform .12s}
+.kd-opt:hover:not(:disabled){transform:translateX(4px);border-color:#f59e0b}.kd-opt.ok{border-color:#16a34a;background:#dcfce7}.kd-opt.bad{border-color:#dc2626;background:#fee2e2;animation:kdshake .4s}.kd-opt.dim{opacity:.55}
+.kd-fb{font-weight:800;padding:8px 12px;border-radius:12px}.kd-fb.ok{background:#dcfce7;color:#166534}.kd-fb.bad{background:#fef3c7;color:#92400e}
+.kd-btn{border:0;border-radius:999px;padding:12px 22px;background:#f59e0b;color:#0f172a;font:800 15px Inter,sans-serif;cursor:pointer;box-shadow:0 4px 0 #b45309;transition:transform .1s}.kd-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #b45309}.kd-btn.ghost{background:#fff;border:2px solid #cbd5e1;box-shadow:none;color:#334155}.kd-btn.big{font-size:18px;padding:16px 28px}.kd-btn:disabled{opacity:.5;cursor:not-allowed}
+.kd-done{text-align:center;font-size:34px}.kd-done p{font-size:16px;font-weight:800;color:#0f172a;margin:6px 0}
+.kd-check{display:block;margin:10px 0;font-size:14px;font-weight:600}
+.kd-result{text-align:center;border-radius:20px;padding:14px;margin:12px 0;background:#fef3c7;border:3px dashed #f59e0b}.kd-result.ok{background:#dcfce7;border-color:#16a34a}
+.kd-bigstars{font-size:44px;letter-spacing:6px;animation:kdpop .5s}.kd-result b{font-size:24px;color:#0f172a}.kd-result p{margin:4px 0 0;font-weight:700}
+.kd-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:8px}
+.kd-chip{background:#e0f2fe;color:#075985;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700}.kd-chip.ok{background:#dcfce7;color:#166534}
+.kd-confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:200}
+.kd-confetti span{position:absolute;top:-40px;animation:kdfall 2.6s ease-in forwards}
+@keyframes kdfall{to{transform:translateY(110vh) rotate(540deg);opacity:.9}}
+@keyframes kdpop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes kdshake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media(prefers-reduced-motion:reduce){.kd-confetti span,.kd-bigstars,.kd-opt.bad{animation:none}}
+@media print{.kd-hud,.kd-confetti{display:none!important}}

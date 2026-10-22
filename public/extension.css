@@ -69,3 +69,11 @@
   #print-sheet{font-family:Inter,Arial,sans-serif}
   #print-sheet .pu-line,#print-sheet .el-tbl,#print-sheet .ps-sign{break-inside:avoid}
 }
+
+/* ===== Paleta Life Skills (marino #0f172a · dorado #f59e0b · pizarra) y logo oficial de Chanak ===== */
+:root{--navy:#0f172a;--navy-2:#1e293b;--gold:#d97706;--gold-soft:#fffbeb;--paper:#f8fafc;--line:#e2e8f0;--green:#16a34a;--green-soft:#dcfce7;--muted:#64748b}
+.brand-logo{height:46px;width:auto;display:block;flex-shrink:0}
+.brand h1{color:#0f172a}
+.badge.gold{background:#fffbeb;color:#b45309;border-color:#fcd34d}
+.coins{font-weight:700;color:#b45309}
+header.top{border-bottom:3px solid #f59e0b}
