@@ -77,3 +77,15 @@
 .badge.gold{background:#fffbeb;color:#b45309;border-color:#fcd34d}
 .coins{font-weight:700;color:#b45309}
 header.top{border-bottom:3px solid #f59e0b}
+
+/* ===== LMS profundo ===== */
+.dp{margin:18px 0}.dp-h{display:flex;align-items:center;gap:10px;font:700 20px Fraunces,serif;color:var(--ext-navy);margin:22px 0 10px}
+.dp-h span{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ext-navy);color:var(--ext-gold);font:700 14px Inter,sans-serif}
+.dp-read p{font-size:16px;line-height:1.75;color:#1e293b;margin:0 0 14px;text-align:justify;hyphens:auto}
+body.kid-on .dp-read p{font-size:19px;line-height:1.8}
+.dp-gloss{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:6px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px 14px}.dp-gloss dt{font-weight:800;color:#92400e}.dp-gloss dd{margin:0;color:#334155}
+.dp-q{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0;background:#fff}.dp-q textarea{width:100%;margin:8px 0;padding:10px;border:1px solid var(--line);border-radius:8px;font:14px/1.5 Inter,sans-serif}
+.dp-fb-btn{padding:6px 14px;font-size:13px}.dp-fb{margin-top:8px;background:#f0fdf4;border-left:4px solid #16a34a;border-radius:8px;padding:10px 12px;font-size:14px;color:#14532d}
+.dp-gate{border:2px dashed #f59e0b;border-radius:12px;padding:12px 14px;background:#fffbeb;font-weight:600}.dp-gate.ok{border-color:#16a34a;background:#dcfce7}
+.is-locked{opacity:.6;filter:grayscale(.4)}
+.pu-p{font-size:11.5px;line-height:1.5;margin:0 0 6px;text-align:justify}

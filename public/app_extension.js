@@ -315,6 +315,7 @@
       '<tr><td>Ruta / Route</td><td>' + esc(routeName) + '</td><td>Trimestre / Quarter</td><td>' + c.quarter + ' · ' + monthName(c.mo) + '</td></tr></table>' +
       '<h2 class="pu-title">' + esc(v.title) + '</h2><p class="pu-sub">' + esc(v.area) + (v.verse ? ' · “' + esc(v.verse) + '” ' + esc(v.ref) : '') + '</p>' +
       '<h4>' + T('Contenidos', 'Contents') + '</h4><ul>' + v.contents.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' +
+      (window.ELDeep ? window.ELDeep.printHtml(c) : '') +
       (ax ? '<h4>Lengua · 4 ejes</h4><ul><li>' + esc(ax.oral) + '</li><li>' + esc(ax.grammar) + '</li><li>' + esc(ax.writing) + '</li><li>' + esc(ax.canon.author) + ' — ' + esc(ax.canon.work) + ': ' + esc(ax.canon.focus) + '</li></ul>' : '') +
       (church ? '<h4>' + esc(church.topic) + '</h4><ul>' + church.facts.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') +
       '<h4>' + T('Sesiones semanales', 'Weekly sessions') + '</h4><ol>' + v.sessions.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>' +
